@@ -1,4 +1,4 @@
 {
-    "secret": "",
+    "secret": "RememberToChangeThisIntoSomethingDifferentAsItIsNotAGoodIdeaToExposeYourSecretAtGitHub",
     "tokenLifespan": "7d"
 }
