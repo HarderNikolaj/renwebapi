@@ -1,4 +1,4 @@
 {
-    "secret": "yolo",
+    "secret": "",
     "tokenLifespan": "7d"
 }
