@@ -1,2 +1,2 @@
 # renwebapi
-api at håndtere databasekontakt
+api til at håndtere databasekontakt
