@@ -1,5 +1,6 @@
 import express from "express";
 import membersRouter from "./Routes/memberRoute";
+import employeesRouter from "./Routes/employeeRoute";
 import loginRouter from "./Routes/loginRoute";
 import bodyParser from "body-parser";
 import middleware from './Middleware/middleware'
@@ -14,6 +15,9 @@ app.use('/members/login/', loginRouter);
 
 app.use(middle.hash, middle.getUser);
 app.use('/members/', membersRouter);
+app.use('/employees/', employeesRouter);
+
+
 
 const Port = process.env.Port || 3000;
 
