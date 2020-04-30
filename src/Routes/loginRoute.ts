@@ -4,7 +4,7 @@ import MemberModel from "../Models/memberModel";
 import EmployeeModel from "../Models/employeeModel"
 import util from "util";
 import jwt from "jsonwebtoken";
-import {secret, tokenLifespan} from "../settings.json";
+import { secret, tokenLifespan } from "../settings.json";
 
 
 const loginRouter = express.Router();
@@ -20,9 +20,12 @@ loginRouter.route('/members/')
             (await promiseCompare(req.body.password, document.password)) ? res.json(
                 {
                     "success": true,
-                    "email": document.email,
-                    "firstname":document.firstname,
-                    "lastname": document.lastname,
+                    "user": 
+                    {
+                        "email": document.email,
+                        "firstname":document.firstname,
+                        "lastname": document.lastname,
+                    },
                     "tokenLifespan": tokenLifespan,
                     "token": jwt.sign({ "email": req.body.email }, secret, { "expiresIn": tokenLifespan })
                 }

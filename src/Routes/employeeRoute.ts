@@ -25,20 +25,27 @@ employeesRouter.route('')
 
 
 employeesRouter.use(middle.authenticate)
-employeesRouter.route('/:email')
+employeesRouter.route('/:searchParam')
 .get((req,res) => {
-    employeeModel.find({ 'email': req.params.email }, (err, documents) => {
+    let searchObjectArray : object[] = [];
+    let SearchParams : string[] = req.params.searchParam.split(", ");
+    
+    SearchParams.forEach((value, index) => {
+        const reg: RegExp = new RegExp(value);
+        searchObjectArray[index] = { $or: [{ 'email': reg }, { 'firstname': reg }, { 'lastname': reg }]};
+    });
+    employeeModel.find({ $and: searchObjectArray }, (err, documents) => {
         (err) ? res.send(err) : res.send(documents);
     });
 })
 .delete((req, res) => {
-    employeeModel.deleteOne({'email': req.params.email}, (err) => {
+    employeeModel.deleteOne({'email': req.params.searchParam}, (err) => {
        (err) ? res.send(err) : res.json({'success': true}); 
     });
 })
 .patch((req, res) => {
     var user: IEmployeeModel = new employeeModel(req.body);
-    employeeModel.updateOne({ "email": req.params.email}, user, (err, result)=>{
+    employeeModel.updateOne({ "email": req.params.searchParam}, user, (err, result)=>{
         (err) ? res.send(err) : res.send(result);
     });
 })
