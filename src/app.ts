@@ -11,7 +11,7 @@ const middle = new middleware();
 const app = express();
 app.use(bodyParser.json());
 
-app.use('/members/login/', loginRouter);
+app.use('/login/', loginRouter);
 
 app.use(middle.hash, middle.getUser);
 app.use('/members/', membersRouter);
