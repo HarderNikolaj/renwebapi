@@ -54,6 +54,10 @@ interface IEmployee{
     firstname : string;
     lastname : string;
     password : string;
+    jobtitle : string;
+    roleHumanResource : boolean;
+    roleSupport : boolean;
+    roleAdministrator : boolean;
 }
 
 export interface IEmployeeModel extends Document, IEmployee{

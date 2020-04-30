@@ -12,7 +12,7 @@ const loginRouter = express.Router();
 
 const promiseCompare = util.promisify(bcrypt.compare);
 
-loginRouter.route('\members')
+loginRouter.route('/members/')
 .post(async (req,res)=>{
     MemberModel.findOne({ "email": req.body.email }, async (err,document)=>{
         if(err) res.send(err);
@@ -42,7 +42,7 @@ loginRouter.route('\members')
     });
 });
 
-loginRouter.route('\employees')
+loginRouter.route('/employees/')
 .post(async (req,res)=>{
     EmployeeModel.findOne({ "email": req.body.email }, async (err,document)=>{
         if(err) res.send(err);
@@ -50,9 +50,17 @@ loginRouter.route('\employees')
             (await promiseCompare(req.body.password, document.password)) ? res.json(
                 {
                     "success": true,
-                    "email": document.email,
-                    "firstname":document.firstname,
-                    "lastname": document.lastname,
+                    "user": 
+                    {
+                        "roleHumanResource": document.roleHumanResource,
+                        "roleSupport": document.roleSupport,
+                        "roleAdministrator": document.roleAdministrator,
+                        "_id": document._id,
+                        "email": document.email,
+                        "firstname": document.firstname,
+                        "lastname": document.lastname,
+                        "jobtitle": document.jobtitle,
+                    },
                     "tokenLifespan": tokenLifespan,
                     "token": jwt.sign({ "email": req.body.email }, secret, { "expiresIn": tokenLifespan })
                 }
