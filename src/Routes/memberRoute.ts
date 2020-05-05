@@ -25,20 +25,26 @@ membersRouter.route('')
 
 
 membersRouter.use(middle.authenticate)
-membersRouter.route('/:email')
+membersRouter.route('/:searchParam')
 .get((req,res) => {
-    memberModel.find({ 'email': req.params.email }, (err, documents) => {
+    let searchObjectArray : object[] = [];
+    let SearchParams : string[] = req.params.searchParam.split(", ");
+    
+    SearchParams.forEach((value, index) => {
+        const reg: RegExp = new RegExp(value);
+        searchObjectArray[index] = { $or: [{ 'email': reg }, { 'firstname': reg }, { 'lastname': reg }]};
+    });
+    memberModel.find({ $and: searchObjectArray }, (err, documents) => {
         (err) ? res.send(err) : res.send(documents);
     });
 })
 .delete((req, res) => {
-    memberModel.deleteOne({'email': req.params.email}, (err) => {
+    memberModel.deleteOne({'email': req.params.searchParam}, (err) => {
        (err) ? res.send(err) : res.json({'success': true}); 
     });
 })
 .patch((req, res) => {
-    var user: IMemberModel = new memberModel(req.body);
-    memberModel.updateOne({ "email": req.params.email}, user, (err, result)=>{
+    memberModel.updateOne({ "email": req.params.searchParam}, req.body, (err, result)=>{
         (err) ? res.send(err) : res.send(result);
     });
 })

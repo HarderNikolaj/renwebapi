@@ -44,8 +44,6 @@ employeesRouter.route('/:searchParam')
     });
 })
 .patch((req, res) => {
-    //var user: IEmployeeModel = new employeeModel(req.body);
-    //console.log(req.body);
     employeeModel.updateOne({ "email": req.params.searchParam}, req.body, (err, result)=>{
         (err) ? res.send(err) : res.send(result);
     });

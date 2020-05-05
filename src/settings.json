@@ -1,4 +1,5 @@
 {
     "secret": "yolo",
-    "tokenLifespan": "7d"
+    "tokenLifespan": "7d",
+    "database": "mongodb://localhost:27017"
 }

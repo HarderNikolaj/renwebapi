@@ -1,7 +1,9 @@
 import mongoose, { Schema, Document} from "mongoose";
+import { database } from "../settings.json";
 
-
-mongoose.connect('mongodb://localhost:27017/employees', { useNewUrlParser: true, useFindAndModify: true, useUnifiedTopology: true, useCreateIndex: true });
+const dbPath: string = database + '/employees';
+mongoose.connect(dbPath, { useNewUrlParser: true, useFindAndModify: true, useUnifiedTopology: true, useCreateIndex: true })
+.catch(()=>console.log("Could not connect to database - " + dbPath));
 
 export const employeeSchema = new Schema({
     email: 
